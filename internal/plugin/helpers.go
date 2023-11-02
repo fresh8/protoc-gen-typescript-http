@@ -10,7 +10,7 @@ func scopedDescriptorTypeName(pkg protoreflect.FullName, desc protoreflect.Descr
 	name := string(desc.Name())
 	var prefix string
 	if desc.Parent() != desc.ParentFile() {
-		prefix = descriptorTypeName(desc.Parent()) + "_"
+		prefix = descriptorTypeName(desc.Parent())
 	}
 	if desc.ParentFile().Package() != pkg {
 		prefix = packagePrefix(desc.ParentFile().Package()) + prefix
@@ -22,13 +22,19 @@ func descriptorTypeName(desc protoreflect.Descriptor) string {
 	name := string(desc.Name())
 	var prefix string
 	if desc.Parent() != desc.ParentFile() {
-		prefix = descriptorTypeName(desc.Parent()) + "_"
+		prefix = descriptorTypeName(desc.Parent())
 	}
 	return prefix + name
 }
 
 func packagePrefix(pkg protoreflect.FullName) string {
-	return strings.Join(strings.Split(string(pkg), "."), "") + "_"
+	out := ""
+	for _, s := range strings.Split(string(pkg), ".") {
+		if s != "" {
+			out = out + strings.ToTitle(s)
+		}
+	}
+	return out
 }
 
 func rangeFields(message protoreflect.MessageDescriptor, f func(field protoreflect.FieldDescriptor)) {
