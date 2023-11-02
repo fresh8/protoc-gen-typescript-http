@@ -32,7 +32,7 @@ func packagePrefix(pkg protoreflect.FullName) string {
 	for _, s := range strings.Split(string(pkg), ".") {
 		s = strings.ToLower(s)
 		if len(s) > 1 {
-			out = out + strings.ToUpper(s[0:]) + s[:1]
+			out = out + strings.ToUpper(s[:1]) + s[1:]
 			continue
 		}
 		out = out + strings.ToUpper(s)
