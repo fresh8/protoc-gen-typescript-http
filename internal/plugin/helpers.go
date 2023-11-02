@@ -30,9 +30,11 @@ func descriptorTypeName(desc protoreflect.Descriptor) string {
 func packagePrefix(pkg protoreflect.FullName) string {
 	out := ""
 	for _, s := range strings.Split(string(pkg), ".") {
-		if s != "" {
-			out = out + strings.ToTitle(s)
+		if len(s) > 1 {
+			out = out + strings.ToUpper(s[0:]) + strings.ToLower(s[:1])
+			continue
 		}
+		out = out + strings.ToUpper(s[0:])
 	}
 	return out
 }
